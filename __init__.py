@@ -17,9 +17,8 @@ from time import sleep
 import os
 import sys
 
-skill_path = "/opt/mycroft/skills/skill-darth-plagueis/"
+skill_path = "/opt/mycroft/skills/skill-Walking/"
 sys.path.append(skill_path)
-import led # for led control on the aiy voice kit
 int counter = 0;
 
 # This was my first test based on the default skill template
@@ -44,34 +43,36 @@ class WalkSkillBasic(MycroftSkill):
     #   'Hello world'
     #   'Howdy you great big world'
     #   'Greetings planet earth'
-    @intent_handler(IntentBuilder("").require("Darth_Plagueis"))
-    def handle_darth_plagueis_intent(self, message):
+    @intent_handler(IntentBuilder("").require("WWeather"))
+    def handle_WWeather_intent(self, message):
         # In this case, respond by simply speaking a canned response.
         # Mycroft will randomly speak one of the lines from the file
         #    dialogs/en-us/hello.world.dialog
 
-        def no_response():
-            self.speak_dialog("tragedy5")
-            finished = True
-            return
+        # def no_response():
+        #     self.speak_dialog("tragedy5")
+        #     finished = True
+        #     return
 
-        choice = self.get_response('tragedy1')
-        if not choice:
-            no_response()
-        else:
-            choice = self.get_response('tragedy2')
-            if not choice:
-                no_response()
-            else:
-                choice = self.get_response('tragedy3')
-                if not choice:
-                    no_response()
-                else:
-                    choice = self.get_response('tragedy4')
-                    if not choice:
-                        no_response()
-                    else:
-                        self.speak_dialog("tragedy5")
+        # choice = self.get_response('tragedy1')
+        # if not choice:
+        #     no_response()
+        # else:
+        #     choice = self.get_response('tragedy2')
+        #     if not choice:
+        #         no_response()
+        #     else:
+        #         choice = self.get_response('tragedy3')
+        #         if not choice:
+        #             no_response()
+        #         else:
+        #             choice = self.get_response('tragedy4')
+        #             if not choice:
+        #                 no_response()
+        #             else:
+        #                 self.speak_dialog("tragedy5")
+
+
 
 
         self.finished = True
@@ -93,22 +94,17 @@ class WalkSkillBasic(MycroftSkill):
 class WalkSkillContext(MycroftSkill):
     def __init__(self, mode='tts'):
         super(WalkSkillContext, self).__init__(name='WalkSkill')
-        self.darkside = False
         self.started = False
-        if mode=='wav':
-            self.wav_mode = True
-        else:
-            self.wav_mode = False
 
         LOG("WalkSkill").debug("Walking skill loaded")
 
 
-    @intent_handler(IntentBuilder('Walk').require('Darth_Plagueis'))
-    @adds_context('WalkContext')
-    def handle_darth_plagueis_intent(self, message):
+    @intent_handler(IntentBuilder('WWeatherIntent').require('query').require('WWeather'))
+    @adds_context('WWalkContext')
+    def handle_WWeather_intent(self, message):
         self.started = True
 
-        self.speak("It is raining cats and dogs!")
+        self.speak_dialog("It.is.raining.cats.and.dogs!")
 
         # ToDo: find a better way to move to the next line if there is no response
         # the blank dialog below does not work with the Google TTS, so removed
@@ -123,16 +119,18 @@ class WalkSkillContext(MycroftSkill):
         # '''
 
 
-    @intent_handler(IntentBuilder('WalkOpportunity').require('save_death').require('PlagueisContext').build())
+    @intent_handler(IntentBuilder('WalkOpportunityIntent').optional('query').require('save_death'))
     @adds_context('SaveFromDeathContext')
-    def handle_save_from_death_intent(self, message):
+    def handle_Walk_Opportunity_intent(self, message):
 
         if(counter == 0){
-        self.speak("Yes! Now is a good time, but it is cold outside, bring me a sweater", expect_response=False)
-        counter = 1;}
+        self.speak_dialog("Yes!.Now.is.a.good.time..but.it.is.cold.outside..bring.me.a.sweater.")
+        counter = 1
+        }
         else if(counter == 1){
-        self.speak("No! We went for a walk recently.", expect_response=False)
-        counter = 0;}   
+        self.speak_dialog("No!.We.went.for.a.walk.recently.")
+        counter = 0
+        }   
         }
 
 
