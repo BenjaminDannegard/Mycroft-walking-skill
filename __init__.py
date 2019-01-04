@@ -19,7 +19,6 @@ import sys
 
 skill_path = "/opt/mycroft/skills/skill-Walking/"
 sys.path.append(skill_path)
-int counter = 0;
 
 # This was my first test based on the default skill template
 # See the 2nd class below for more sophisticated dialog control
@@ -123,15 +122,8 @@ class WalkSkillContext(MycroftSkill):
     @adds_context('SaveFromDeathContext')
     def handle_Walk_Opportunity_intent(self, message):
 
-        if(counter == 0){
         self.speak_dialog("Yes!.Now.is.a.good.time..but.it.is.cold.outside..bring.me.a.sweater.")
-        counter = 1
-        }
-        else if(counter == 1){
         self.speak_dialog("No!.We.went.for.a.walk.recently.")
-        counter = 0
-        }   
-        }
 
 
     @intent_handler(IntentBuilder('WhatHappened').require('happened').require('PlagueisContext').build())
