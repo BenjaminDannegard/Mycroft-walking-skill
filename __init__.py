@@ -99,7 +99,6 @@ class WalkSkillContext(MycroftSkill):
 
 
     @intent_handler(IntentBuilder('WWeatherIntent').require('query').require('WWeather'))
-    @adds_context('WWalkContext')
     def handle_WWeather_intent(self, message):
         self.started = True
 
@@ -118,10 +117,9 @@ class WalkSkillContext(MycroftSkill):
         # '''
 
 
-    @intent_handler(IntentBuilder('WalkOpportunityIntent').optional('query').require('save_death'))
-    @adds_context('SaveFromDeathContext')
+    @intent_handler(IntentBuilder('WalkOpportunityIntent').require('query').require('save_death'))
     def handle_Walk_Opportunity_intent(self, message):
-
+        self.started = True
         self.speak_dialog("Yes!.Now.is.a.good.time..but.it.is.cold.outside..bring.me.a.sweater.")
         self.speak_dialog("No!.We.went.for.a.walk.recently.")
 
