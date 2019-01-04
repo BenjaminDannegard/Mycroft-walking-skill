@@ -124,36 +124,5 @@ class WalkSkillContext(MycroftSkill):
         self.speak_dialog("No!.We.went.for.a.walk.recently.")
 
 
-    @intent_handler(IntentBuilder('WhatHappened').require('happened').require('PlagueisContext').build())
-    @adds_context('SaveFromDeathContext')
-    def what_happened_intent(self, message):
-            self.speak("")
-
-    @intent_handler(IntentBuilder('LearnThisPower').require('learn')
-                    .require('SaveFromDeathContext').require('PlagueisContext').build())
-    @removes_context('PlagueisContext')
-    @removes_context('SaveFromDeathContext')
-    def handle_can_be_learned_intent(self, message):
-        if self.wav_mode:
-            play(os.path.join(skill_path,'audio/tragedy of darth plagueis 5.wav'))
-            led.wait(1, led.LED.ON)
-        else:
-            self.speak("Not from a Jedi")
-
-
-    @removes_context('PlagueisContext')
-    @removes_context('SaveFromDeathContext')
     def stop(self):
-        if self.started and not self.darkside:
-                if self.wav_mode:
-                    play(os.path.join(skill_path,'audio/tragedy of darth plagueis 3.wav'))
-                    led.wait(8)
-
-                else:
-                    self.speak("The dark side of the Force is a pathway to many abilities some consider to be unnatural.")
-
-        return True
-
-
-def create_skill():
-    return PlagueisSkillContext(mode='wav')
+        pass
